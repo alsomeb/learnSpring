@@ -60,7 +60,14 @@ public class TodoController {
         return new ResponseEntity<>(todoService.add(todo), HttpStatus.CREATED);
     }
 
-    // TODO Update och Delete samt Tester, (fixa ResponseEntities på allt?)
+    // Update ( Not passing ID )
+    // Will save to existing todo or create a new one! 2 flugor 1 smäll
+    @PutMapping
+    public ResponseEntity<Todo> updateTodo(@RequestBody Todo todo) {
+        return new ResponseEntity<>(todoService.update(todo), HttpStatus.OK);
+    }
+
+    // TODO och Delete samt Tester, (fixa ResponseEntities på allt?)
 
 
 }

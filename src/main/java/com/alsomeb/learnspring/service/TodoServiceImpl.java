@@ -5,6 +5,7 @@ import com.alsomeb.learnspring.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,4 +37,12 @@ public class TodoServiceImpl implements TodoService {
     public Todo add(Todo todo) {
         return repository.save(todo);
     }
+
+    @Override
+    public Todo update(Todo todo) {
+        todo.setLastUpdate(LocalDate.now());
+        return repository.save(todo);
+    }
+
+
 }
