@@ -48,10 +48,15 @@ public class TodoController {
     @GetMapping("{id}")
     public ResponseEntity<Todo> findById(@PathVariable Long id) { // tex id 1337 - localhost:8080/api/todo/1337
         Optional<Todo> todo = todoService.findById(id);
+        /*
         if(todo.isPresent()) {
             return new ResponseEntity<>(todo.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         */
+
+        // Reactor, Ternary operator
+        return todo.isPresent() ? new ResponseEntity<>(todo.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // POST  ( SKAPA) localhost:8080/api/todo/
