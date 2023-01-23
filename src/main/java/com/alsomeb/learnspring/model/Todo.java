@@ -4,7 +4,6 @@ package com.alsomeb.learnspring.model;
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 public class Todo {
@@ -15,18 +14,19 @@ public class Todo {
     @Column(nullable = false, length = 50) // == desc varchar(50) not null
     private String desc;
 
-    @Column(nullable = false)
-    final private LocalDate created;
+    // AUTOGENERATE I CONSTRUCTOR
+    private LocalDate created;
 
-    @Column(nullable = false)
     private LocalDate lastUpdate;
 
 
+    // No Args constructor behöver LocalDate för att kunna populera props med datum
     public Todo() {
         created = LocalDate.now();
         lastUpdate = LocalDate.now();
     }
 
+    // Seeding av data måste också ha Datumhantering i denna constructor
     public Todo(String desc) {
         this.desc = desc;
         created = LocalDate.now();
