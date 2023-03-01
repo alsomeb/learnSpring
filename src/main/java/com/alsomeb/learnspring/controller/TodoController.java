@@ -22,7 +22,7 @@ public class TodoController {
     //Controllern ROUTAR bara requests. Kör endast metoderna i Service. Servicen är själva "hjärnan"
     //Servicen pratar sedan med repositoryn som i sin tur ansvarar för att prata med databasen
 
-    private TodoService todoService;
+    private final TodoService todoService;
 
     @Autowired
     public TodoController(TodoService todoService) {
@@ -54,8 +54,9 @@ public class TodoController {
     }
 
     // POST  ( SKAPA) localhost:8080/api/todo/
+    // Behöver inte returnera hela User objekt, det kan en GET request göra, return bara ID
     @PostMapping
-    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo) { //kolla upp @RequestBody
+    public ResponseEntity<Long> addTodo(@RequestBody Todo todo) { //kolla upp @RequestBody
         return new ResponseEntity<>(todoService.add(todo), HttpStatus.CREATED);
     }
 

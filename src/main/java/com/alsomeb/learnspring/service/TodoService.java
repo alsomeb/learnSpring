@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface TodoService {
     List<Todo> findAll();
     Optional<Todo> findById(Long id);
-    Todo add(Todo todo);
+    Long add(Todo todo);
     Todo update(Todo todo);
 
     void deleteById(Long id);

@@ -15,7 +15,7 @@ public class TodoServiceImpl implements TodoService {
     // DEP INJECTION för att kunna använda repo
     // BUSINESS LOGIC HÄR! INTE I CONTROLLER
 
-    private TodoRepository repository;
+    private final TodoRepository repository;
 
 
     @Autowired
@@ -34,8 +34,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo add(Todo todo) {
-        return repository.save(todo);
+    public Long add(Todo todo) {
+        return repository.save(todo).getId();
     }
 
     @Override
