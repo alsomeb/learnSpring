@@ -1,15 +1,13 @@
 package com.alsomeb.learnspring.controller;
 
+
 import com.alsomeb.learnspring.model.Todo;
 import com.alsomeb.learnspring.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,14 +27,6 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    // Swagger, when someone req for the root page redirect to swagger UI
-    // @ApiIgnore removes all the default predefined HTTP requests, WE WILL DEFINE THEM BY OURSELVES (IN HERE, SWAGGER AUTO DETECT?)
-    @ApiIgnore
-    @RequestMapping(value = "/")
-    public void redirect(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/swagger-ui/");
-    }
-
     // GET ALL, localhost:8080/api/todo/
     @GetMapping
     public List<Todo> getAllTodos() {
@@ -49,8 +39,8 @@ public class TodoController {
     public ResponseEntity<Todo> findById(@PathVariable Long id) { // tex id 1337 - localhost:8080/api/todo/1337
         Optional<Todo> todo = todoService.findById(id);
 
-        // Ternary operator
-        return todo.isPresent() ? new ResponseEntity<>(todo.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // map return object 200 OK if present or else HTTP 404 not found
+        return todo.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // POST  ( SKAPA) localhost:8080/api/todo/
@@ -60,10 +50,12 @@ public class TodoController {
         return new ResponseEntity<>(todoService.add(todo), HttpStatus.CREATED);
     }
 
-    // Update ( Not passing ID )
+    // Update ( Not passing ID ) - but will return ID and 200 if match else custom exception with 404 code
+    // no need to return full object that can a GET req do.
+    // Logic in ServiceImpl
     // Will save to existing todo or create a new one! 2 flugor 1 smäll
     @PutMapping
-    public ResponseEntity<Todo> updateTodo(@RequestBody Todo todo) {
+    public ResponseEntity<Long> updateTodo(@RequestBody Todo todo) {
         return new ResponseEntity<>(todoService.update(todo), HttpStatus.OK);
     }
 

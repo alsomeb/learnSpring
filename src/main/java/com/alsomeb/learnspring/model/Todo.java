@@ -1,7 +1,7 @@
 package com.alsomeb.learnspring.model;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -31,6 +31,11 @@ public class Todo {
         this.desc = desc;
         created = LocalDate.now();
         lastUpdate = LocalDate.now();
+    }
+
+    public Todo(Long id, String desc) {
+        this.id = id;
+        this.desc = desc;
     }
 
     public Long getId() {

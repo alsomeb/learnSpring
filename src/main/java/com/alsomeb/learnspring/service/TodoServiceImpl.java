@@ -1,5 +1,6 @@
 package com.alsomeb.learnspring.service;
 
+import com.alsomeb.learnspring.exceptions.TodoNotFoundException;
 import com.alsomeb.learnspring.model.Todo;
 import com.alsomeb.learnspring.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,12 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo update(Todo todo) {
-        todo.setLastUpdate(LocalDate.now());
-        return repository.save(todo);
+    public Long update(Todo todo) {
+        Todo match = repository.findById(todo.getId())
+                .orElseThrow(() -> new TodoNotFoundException("No Match"));
+        match.setLastUpdate(LocalDate.now());
+        match.setDesc(todo.getDesc());
+        return repository.save(match).getId();
     }
 
     @Override

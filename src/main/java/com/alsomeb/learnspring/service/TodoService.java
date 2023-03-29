@@ -9,7 +9,7 @@ public interface TodoService {
     List<Todo> findAll();
     Optional<Todo> findById(Long id);
     Long add(Todo todo);
-    Todo update(Todo todo);
+    Long update(Todo todo);
 
     void deleteById(Long id);
 }
