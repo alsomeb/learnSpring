@@ -61,10 +61,16 @@ class TodoServiceTest {
     void testGetAllTodosEndpointWorks() throws Exception {
         // Given
         String url = "/api/todo";
+        Todo todo = new Todo("Test");
+        todo.setId(1L);
+
+        Todo todo2 = new Todo("Test 2");
+        todo2.setId(2L);
+
         List<Todo> todos = List.of(
-                new Todo(1L, "Test"),
-                new Todo(2L, "Test 2")
+               todo, todo2
         );
+
         Mockito.when(todoservice.findAll()).thenReturn(todos);
 
         // When
@@ -80,7 +86,8 @@ class TodoServiceTest {
     @Test
     void getTodoByIdWorks() throws Exception {
         String url = "/api/todo/{id}";
-        Todo todo = new Todo(2L, "alex");
+        Todo todo = new Todo("alex");
+        todo.setId(2L);
         Mockito.when(todoservice.findById(2L)).thenReturn(Optional.of(todo));
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -89,7 +96,8 @@ class TodoServiceTest {
               .andDo(print())
               .andExpect(status().isOk())
               .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(2))
-              .andExpect(MockMvcResultMatchers.jsonPath("$.desc").value("alex"));
+              .andExpect(MockMvcResultMatchers.jsonPath("$.desc").value("alex"))
+              .andExpect(MockMvcResultMatchers.jsonPath("$.created").exists());
     }
 
 }
