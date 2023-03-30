@@ -100,4 +100,15 @@ class TodoServiceTest {
               .andExpect(MockMvcResultMatchers.jsonPath("$.created").exists());
     }
 
+    @Test
+    void getTodoByWrongIdShouldReturnStatusCode404() throws Exception {
+        String url = "/api/todo/{id}";
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(url, 2)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
 }
