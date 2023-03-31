@@ -53,7 +53,6 @@ public class TodoController {
     // Update ( Not passing ID ) - but will return ID and 200 if match else custom exception with 404 code
     // no need to return full object that can a GET req do.
     // Logic in ServiceImpl
-    // Will save to existing todo or create a new one! 2 flugor 1 smäll
     @PutMapping
     public ResponseEntity<Long> updateTodo(@RequestBody Todo todo) {
         return new ResponseEntity<>(todoService.update(todo), HttpStatus.OK);
